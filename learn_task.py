@@ -293,7 +293,7 @@ if __name__ == '__main__':
         cfg, line, agent, train_model)
     train_time_end = time.time()
     train_time = train_time_end - train_time_start
-    make_dir(cfg.result_path, cfg.model_path)
+    make_dir(cfg.result_path, cfg.model_path, cfg.data_path)
     agent.save(path=cfg.model_path)
     save_results(t_rewards, t_ma_rewards, tag='train', path=cfg.result_path)
 
@@ -328,10 +328,12 @@ if __name__ == '__main__':
     print("训练时间为{}".format(train_time))
     # print("计算时间为{}".format(eval_time / cfg.eval_eps))
 
-    # # 数据导出
-    # output_excel = {'t_rewards': t_rewards, 't_ma_rewards': t_ma_rewards, 'rewards': rewards, 'ma_rewards': ma_rewards, 'ev_list': ev_list[1], 'et_list': et_list[1],
-    #                 'ea_list': ea_list[1],
-    #                 'eacc_list': eacc_list[1],
-    #                 'limit_list': limit_list, 'A_limit_list': A_limit_list, 'unsafe_c': unsafe_c, 'ma_unsafe_c': ma_unsafe_c, 'slope_list': slope_list}
-    # output = pd.DataFrame.from_dict(output_excel, orient='index')
-    # output.to_excel(cfg.data_path + '{}_data.xlsx'.format(cfg.algo_n + '_' + cfg.algo), index=False)
+    # 数据导出
+    output_excel = {'t_rewards': t_rewards, 't_ma_rewards': t_ma_rewards, 'rewards': t_rewards, 'ma_rewards': t_ma_rewards, 'v_list': v_list[499], 't_list': t_list[499],
+                    'a_list': a_list[499],
+                    'acc_list': acc_list[499],
+                    'limit_list': limit_list, 'A_limit_list': A_limit_list, 'unsafe_c': unsafe_c, 'ma_unsafe_c': ma_unsafe_c, 'slope_list': slope_list}
+    output = pd.DataFrame.from_dict(output_excel, orient='index')
+    output.to_excel(cfg.data_path + '{}_data.xlsx'.format(cfg.algo_n + '_' + cfg.algo), index=False)
+    df = pd.DataFrame(v_list)
+    df.to_excel(cfg.data_path + '{}_data_v.xlsx'.format(cfg.algo_n + '_' + cfg.algo), index=False)
